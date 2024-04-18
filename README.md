@@ -1,2 +1,4 @@
 # Very-Impractical-Games
-Very Impractical Games (VIG for short) is a single-script command line python minigame program.
+Very Impractical Games (VIG for short) is a single-script command line python minigame program. If all you ever wanted to do was play Tic-Tac-Toe and Checkers in your terminal... well... I don't know what to say to that.
+
+I originally created this script as a friendly coding challenge against one of my friends, under the terms of making a game with only text (that isn't a text adventure!) It was just a fun little thing that I decided to expand upon, and as the LICENSE file states, this code is completely open source, and you can do WHATEVER you want with it! Even adding more games... perhaps... even MORE impractical... >:)
