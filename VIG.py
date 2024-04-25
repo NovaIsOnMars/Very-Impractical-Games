@@ -2,7 +2,12 @@
 
 # clears screen
 import os
-os.system("cls")
+if os.system == "nt":
+    os.system("cls")
+elif os.system == "posix":
+    os.system("clear")
+else:
+    os.system("clear")
 
 # all games stuff
 game = ""
@@ -32,7 +37,12 @@ tictacLetterIndex = ["A", "B", "C"]
 
 # re-prints the ckeckers board
 def updateCheckerboard():
-    os.system("cls")
+    if os.system == "nt":
+        os.system("cls")
+    elif os.system == "posix":
+        os.system("clear")
+    else:
+        os.system("clear")
     print("8    " + eight[0] + "  " + eight[1] + "  " + eight[2] + "  " + eight[3] + "  " + eight[4] + "  " + eight[5] + "  " + eight[6] + "  " + eight[7])
     print("7    " + seven[0] + "  " + seven[1] + "  " + seven[2] + "  " + seven[3] + "  " + seven[4] + "  " + seven[5] + "  " + seven[6] + "  " + seven[7])
     print("6    " + six[0] + "  " + six[1] + "  " + six[2] + "  " + six[3] + "  " + six[4] + "  " + six[5] + "  " + six[6] + "  " + six[7])
@@ -185,7 +195,12 @@ def checkers():
                     elif move[1] == "8":
                         eight[letterIndex.index(move[0])] = empty
                     else:
-                        os.system("cls")
+                        if os.system == "nt":
+                            os.system("cls")
+                        elif os.system == "posix":
+                            os.system("clear")
+                        else:
+                            os.system("clear")
                         print("game is broke :(")
                     # clears previous position
                     if turn == "white":
@@ -206,7 +221,12 @@ def checkers():
                         elif move[4] == "8":
                             eight[letterIndex.index(move[3])] = white
                         else:
-                            os.system("cls")
+                            if os.system == "nt":
+                                os.system("cls")
+                            elif os.system == "posix":
+                                os.system("clear")
+                            else:
+                                os.system("clear")
                             print("game is broke :(")
                     elif turn == "black":
                         if move[4] == "1":
@@ -226,10 +246,20 @@ def checkers():
                         elif move[4] == "8":
                             eight[letterIndex.index(move[3])] = black
                         else:
-                            os.system("cls")
+                            if os.system == "nt":
+                                os.system("cls")
+                            elif os.system == "posix":
+                                os.system("clear")
+                            else:
+                                os.system("clear")
                             print("game is broke :(")
                     else:
-                            os.system("cls")
+                            if os.system == "nt":
+                                os.system("cls")
+                            elif os.system == "posix":
+                                os.system("clear")
+                            else:
+                                os.system("clear")
                             print("game is broke :(")
                     # moves to new position
                 else:
@@ -255,7 +285,12 @@ def checkers():
     print(F"congrats {winner}, you won!")
 
 def updateTicTacToeBoard():
-    os.system("cls")
+    if os.system == "nt":
+        os.system("cls")
+    elif os.system == "posix":
+        os.system("clear")
+    else:
+        os.system("clear")
     print("3  " + tictactoe3[0] + " | " + tictactoe3[1] + " | " + tictactoe3[2])
     print("  ———————————")
     print("2  " + tictactoe2[0] + " | " + tictactoe2[1] + " | " + tictactoe2[2])
@@ -302,7 +337,12 @@ def tictactoe():
                         elif move[1] == "3":
                            tictactoe3[tictacLetterIndex.index(move[0])] = x
                         else:
-                            os.system("cls")
+                            if os.system == "nt":
+                                os.system("cls")
+                            elif os.system == "posix":
+                                os.system("clear")
+                            else:
+                                os.system("clear")
                             print("game is broke :(")
                     elif turn == "O":
                         if move[1] == "1":
@@ -312,10 +352,20 @@ def tictactoe():
                         elif move[1] == "3":
                            tictactoe3[tictacLetterIndex.index(move[0])] = o
                         else:
-                            os.system("cls")
+                            if os.system == "nt":
+                                os.system("cls")
+                            elif os.system == "posix":
+                                os.system("clear")
+                            else:
+                                os.system("clear")
                             print("game is broke :(")
                     else:
-                        os.system("cls")
+                        if os.system == "nt":
+                            os.system("cls")
+                        elif os.system == "posix":
+                            os.system("clear")
+                        else:
+                            os.system("clear")
                         print("game is broke :(")
                 else:
                     print("uh oh, that move is invalid... please try again!")
