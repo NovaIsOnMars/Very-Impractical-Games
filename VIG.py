@@ -57,9 +57,12 @@ def updateCheckerboard():
 def checkLegalMove(currentTurn, moveInput):
     correctlySelected = False
     moveSpotOpen = False
-    validRegularMoveY = False
     validRegularMoveX = False
-    validJumpingMove = False
+    validRegularMoveY = False
+    validJumpingMoveX = False
+    validJumpingMoveY = False
+    validPieceForJump = False
+    jumpedPiece = ""
     if currentTurn == "white":
         if moveInput[1] == "1":
             correctlySelected = (one[letterIndex.index(moveInput[0])] == white)
@@ -125,36 +128,40 @@ def checkLegalMove(currentTurn, moveInput):
     if currentTurn == "white":
         if moveInput[1] == "1":
             validRegularMoveY = (moveInput[4] == "2")
-        if moveInput[1] == "2":
+        elif moveInput[1] == "2":
             validRegularMoveY = (moveInput[4] == "3")
-        if moveInput[1] == "3":
+        elif moveInput[1] == "3":
             validRegularMoveY = (moveInput[4] == "4")
-        if moveInput[1] == "4":
+        elif moveInput[1] == "4":
             validRegularMoveY = (moveInput[4] == "5")
-        if moveInput[1] == "5":
+        elif moveInput[1] == "5":
             validRegularMoveY = (moveInput[4] == "6")
-        if moveInput[1] == "6":
+        elif moveInput[1] == "6":
             validRegularMoveY = (moveInput[4] == "7")
-        if moveInput[1] == "7":
+        elif moveInput[1] == "7":
             validRegularMoveY = (moveInput[4] == "8")
-        if moveInput[1] == "8":
+        elif moveInput[1] == "8":
+            validRegularMoveY = False
+        else:
             validRegularMoveY = False
     elif currentTurn == "black":
         if moveInput[1] == "8":
             validRegularMoveY = (moveInput[4] == "7")
-        if moveInput[1] == "7":
+        elif moveInput[1] == "7":
             validRegularMoveY = (moveInput[4] == "6")
-        if moveInput[1] == "6":
+        elif moveInput[1] == "6":
             validRegularMoveY = (moveInput[4] == "5")
-        if moveInput[1] == "5":
+        elif moveInput[1] == "5":
             validRegularMoveY = (moveInput[4] == "4")
-        if moveInput[1] == "4":
+        elif moveInput[1] == "4":
             validRegularMoveY = (moveInput[4] == "3")
-        if moveInput[1] == "3":
+        elif moveInput[1] == "3":
             validRegularMoveY = (moveInput[4] == "2")
-        if moveInput[1] == "2":
+        elif moveInput[1] == "2":
             validRegularMoveY = (moveInput[4] == "1")
-        if moveInput[1] == "1":
+        elif moveInput[1] == "1":
+            validRegularMoveY = False
+        else:
             validRegularMoveY = False
     else:
         validRegularMoveY = False
@@ -163,7 +170,141 @@ def checkLegalMove(currentTurn, moveInput):
     validRegularMoveX = abs(int(letterIndex.index(moveInput[0])) - int(letterIndex.index(moveInput[3]))) == 1
     # checks if the x pos (letter axis) of the move is acceptable, assuming it is a non-jumping move
 
-    return correctlySelected and moveSpotOpen and ((validRegularMoveY and validRegularMoveX) or validJumpingMove)
+    if not (validRegularMoveX and validRegularMoveY):
+        if currentTurn == "white":
+            if moveInput[1] == "1":
+                validJumpingMoveY = (moveInput[4] == "3")
+            elif moveInput[1] == "2":
+               validJumpingMoveY = (moveInput[4] == "4")
+            elif moveInput[1] == "3":
+                validJumpingMoveY = (moveInput[4] == "5")
+            elif moveInput[1] == "4":
+                validJumpingMoveY = (moveInput[4] == "6")
+            elif moveInput[1] == "5":
+                validJumpingMoveY = (moveInput[4] == "7")
+            elif moveInput[1] == "6":
+                validJumpingMoveY = (moveInput[4] == "8")
+            elif moveInput[1] == "7":
+                validJumpingMoveY = False
+            elif moveInput[1] == "8":
+                validJumpingMoveY = False
+            else:
+                validJumpingMoveY = False
+        elif currentTurn == "black":
+            if moveInput[1] == "8":
+                validJumpingMoveY = (moveInput[4] == "6")
+            elif moveInput[1] == "7":
+                validJumpingMoveY = (moveInput[4] == "5")
+            elif moveInput[1] == "6":
+                validJumpingMoveY = (moveInput[4] == "4")
+            elif moveInput[1] == "5":
+                validJumpingMoveY = (moveInput[4] == "3")
+            elif moveInput[1] == "4":
+                validJumpingMoveY = (moveInput[4] == "2")
+            elif moveInput[1] == "3":
+                validJumpingMoveY = (moveInput[4] == "1")
+            elif moveInput[1] == "2":
+                validJumpingMoveY = False
+            elif moveInput[1] == "1":
+                validJumpingMoveY = False
+            else:
+                validJumpingMoveY = False
+        else:
+            validJumpingMoveY = False
+        # checks if the y pos (number axis) of the move is acceptable, assuming it is a jumping move
+
+        validJumpingMoveX = abs(int(letterIndex.index(moveInput[0])) - int(letterIndex.index(moveInput[3]))) == 2
+        # checks if the x pos (letter axis) of the move is acceptable, assuming it is a jumping move
+        
+        if currentTurn == "white":
+            if moveInput[4] == "1":
+                validPieceForJump = False
+            elif moveInput[4] == "2":
+                if one[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "1"
+            elif moveInput[4] == "3":
+                if two[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "2"
+            elif moveInput[4] == "4":
+                if three[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "3"
+            elif moveInput[4] == "5":
+                if four[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "4"
+            elif moveInput[4] == "6":
+                if five[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "5"
+            elif moveInput[4] == "7":
+                if six[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "6"
+            elif moveInput[4] == "8":
+                if seven[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "7"
+            else:
+                validPieceForJump = False
+        elif currentTurn == "black":
+            if moveInput[4] == "1":
+                if two[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "2"
+            elif moveInput[4] == "2":
+                if three[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "3"
+            elif moveInput[4] == "3":
+                if four[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "4"
+            elif moveInput[4] == "4":
+                if five[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "5"
+            elif moveInput[4] == "5":
+                if six[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "6"
+            elif moveInput[4] == "6":
+                if seven[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "7"
+            elif moveInput[4] == "7":
+                if eight[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
+                    validPieceForJump = True
+                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "8"
+            elif moveInput[4] == "8":
+                validPieceForJump = False
+            else:
+                    validPieceForJump = False
+        else:
+            validPieceForJump = False
+        # makes sure the jumped piece is valid.
+
+        if correctlySelected and moveSpotOpen and (validJumpingMoveX and validJumpingMoveY and validPieceForJump):
+            if jumpedPiece[1] == "1":
+                one[letterIndex.index(jumpedPiece[0])] = empty
+            elif jumpedPiece[1] == "2":
+                two[letterIndex.index(jumpedPiece[0])] = empty
+            elif jumpedPiece[1] == "3":
+                three[letterIndex.index(jumpedPiece[0])] = empty
+            elif jumpedPiece[1] == "4":
+                four[letterIndex.index(jumpedPiece[0])] = empty
+            elif jumpedPiece[1] == "5":
+                five[letterIndex.index(jumpedPiece[0])] = empty
+            elif jumpedPiece[1] == "6":
+                six[letterIndex.index(jumpedPiece[0])] = empty
+            elif jumpedPiece[1] == "7":
+                seven[letterIndex.index(jumpedPiece[0])] = empty
+            elif jumpedPiece[1] == "8":
+                eight[letterIndex.index(jumpedPiece[0])] = empty
+
+    return correctlySelected and moveSpotOpen and ((validRegularMoveY and validRegularMoveX) or (validJumpingMoveX and validJumpingMoveY and validPieceForJump))
 
 # plays checkers
 def checkers():
