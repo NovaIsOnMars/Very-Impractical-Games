@@ -164,11 +164,11 @@ def checkLegalMove(currentTurn, moveInput, move1, move4):
         # checks if the x pos (letter axis) of the move is acceptable, assuming it is a jumping move
         
         if currentTurn == "white":
-            if board[move1 - 2][int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
+            if board[move1 - 1][int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
                 validPieceForJump = True
                 jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "1"
         elif currentTurn == "black":
-            if board[move1 - 1][int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
+            if board[move1][int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
                 validPieceForJump = True
                 jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "2"
         else:
@@ -178,7 +178,7 @@ def checkLegalMove(currentTurn, moveInput, move1, move4):
         if correctlySelected and moveSpotOpen and (validJumpingMoveX and validJumpingMoveY and validPieceForJump):
                 board[move1 - 1][letterIndex.index(jumpedPiece[0])] = empty
 
-    # print("correctlySelected: " + str(correctlySelected) + " moveSpotOpen: " + str(moveSpotOpen) + " validRegularMoveX: " + str(validRegularMoveX) + " validRegularMoveY: " + str(validRegularMoveY) + " validJumpingMoveX: " + str(validJumpingMoveX) + " validJumpingMoveY: " + str(validJumpingMoveY) + " validPieceForJump: " + str(validPieceForJump))
+    print("correctlySelected: " + str(correctlySelected) + " moveSpotOpen: " + str(moveSpotOpen) + " validRegularMoveX: " + str(validRegularMoveX) + " validRegularMoveY: " + str(validRegularMoveY) + " validJumpingMoveX: " + str(validJumpingMoveX) + " validJumpingMoveY: " + str(validJumpingMoveY) + " validPieceForJump: " + str(validPieceForJump))
     # for debugging ^
     return correctlySelected and moveSpotOpen and ((validRegularMoveY and validRegularMoveX) or (validJumpingMoveX and validJumpingMoveY and validPieceForJump))
 
