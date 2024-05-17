@@ -9,14 +9,16 @@ game = ""
 black = "0"
 white = "O"
 empty = "+"
-eight = [empty, black, empty, black, empty, black, empty, black]
-seven = [black, empty, black, empty, black, empty, black, empty]
-six = [empty, black, empty, black, empty, black, empty, black]
-five = [empty, empty, empty, empty, empty, empty, empty, empty]
-four = [empty, empty, empty, empty, empty, empty, empty, empty]
-three = [white, empty, white, empty, white, empty, white, empty]
-two = [empty, white, empty, white, empty, white, empty, white]
-one = [white, empty, white, empty, white, empty, white, empty]
+board = (
+    [empty, black, empty, black, empty, black, empty, black],
+    [black, empty, black, empty, black, empty, black, empty],
+    [empty, black, empty, black, empty, black, empty, black],
+    [empty, empty, empty, empty, empty, empty, empty, empty],
+    [empty, empty, empty, empty, empty, empty, empty, empty],
+    [white, empty, white, empty, white, empty, white, empty],
+    [empty, white, empty, white, empty, white, empty, white],
+    [white, empty, white, empty, white, empty, white, empty],
+)
 letterIndex = ["A", "B", "C", "D", "E", "F", "G", "H"]
 
 # tic tac toe stuff
@@ -37,18 +39,19 @@ def clear():
 # re-prints the ckeckers board
 def updateCheckerboard():
     clear()
-    print("8    " + eight[0] + "  " + eight[1] + "  " + eight[2] + "  " + eight[3] + "  " + eight[4] + "  " + eight[5] + "  " + eight[6] + "  " + eight[7])
-    print("7    " + seven[0] + "  " + seven[1] + "  " + seven[2] + "  " + seven[3] + "  " + seven[4] + "  " + seven[5] + "  " + seven[6] + "  " + seven[7])
-    print("6    " + six[0] + "  " + six[1] + "  " + six[2] + "  " + six[3] + "  " + six[4] + "  " + six[5] + "  " + six[6] + "  " + six[7])
-    print("5    " + five[0] + "  " + five[1] + "  " + five[2] + "  " + five[3] + "  " + five[4] + "  " + five[5] + "  " + five[6] + "  " + five[7])
-    print("4    " + four[0] + "  " + four[1] + "  " + four[2] + "  " + four[3] + "  " + four[4] + "  " + four[5] + "  " + four[6] + "  " + four[7])
-    print("3    " + three[0] + "  " + three[1] + "  " + three[2] + "  " + three[3] + "  " + three[4] + "  " + three[5] + "  " + three[6] + "  " + three[7])
-    print("2    " + two[0] + "  " + two[1] + "  " + two[2] + "  " + two[3] + "  " + two[4] + "  " + two[5] + "  " + two[6] + "  " + two[7])
-    print("1    " + one[0] + "  " + one[1] + "  " + one[2] + "  " + one[3] + "  " + one[4] + "  " + one[5] + "  " + one[6] + "  " + one[7])
+    print("8    " + board[0][0] + "  " + board[0][1] + "  " + board[0][2] + "  " + board[0][3] + "  " + board[0][4] + "  " + board[0][5] + "  " + board[0][6] + "  " + board[0][7])
+    print("7    " + board[1][0] + "  " + board[1][1] + "  " + board[1][2] + "  " + board[1][3] + "  " + board[1][4] + "  " + board[1][5] + "  " + board[1][6] + "  " + board[1][7])
+    print("6    " + board[2][0] + "  " + board[2][1] + "  " + board[2][2] + "  " + board[2][3] + "  " + board[2][4] + "  " + board[2][5] + "  " + board[2][6] + "  " + board[2][7])
+    print("5    " + board[3][0] + "  " + board[3][1] + "  " + board[3][2] + "  " + board[3][3] + "  " + board[3][4] + "  " + board[3][5] + "  " + board[3][6] + "  " + board[3][7])
+    print("4    " + board[4][0] + "  " + board[4][1] + "  " + board[4][2] + "  " + board[4][3] + "  " + board[4][4] + "  " + board[4][5] + "  " + board[4][6] + "  " + board[4][7])
+    print("3    " + board[5][0] + "  " + board[5][1] + "  " + board[5][2] + "  " + board[5][3] + "  " + board[5][4] + "  " + board[5][5] + "  " + board[5][6] + "  " + board[5][7])
+    print("2    " + board[6][0] + "  " + board[6][1] + "  " + board[6][2] + "  " + board[6][3] + "  " + board[6][4] + "  " + board[6][5] + "  " + board[6][6] + "  " + board[6][7])
+    print("1    " + board[7][0] + "  " + board[7][1] + "  " + board[7][2] + "  " + board[7][3] + "  " + board[7][4] + "  " + board[7][5] + "  " + board[7][6] + "  " + board[7][7])
     print("")
     print("     " + letterIndex[0] + "  " + letterIndex[1] + "  " + letterIndex[2] + "  " + letterIndex[3] + "  " + letterIndex[4] + "  " + letterIndex[5] + "  " + letterIndex[6] + "  " + letterIndex[7] + F"       * black pieces are '{black}' and white pieces are '{white}'")
 
-def checkLegalMove(currentTurn, moveInput):
+def checkLegalMove(currentTurn, moveInput, move1, move4):
+    
     correctlySelected = False
     moveSpotOpen = False
     validRegularMoveX = False
@@ -57,66 +60,16 @@ def checkLegalMove(currentTurn, moveInput):
     validJumpingMoveY = False
     validPieceForJump = False
     jumpedPiece = ""
+
     if currentTurn == "white":
-        if moveInput[1] == "1":
-            correctlySelected = (one[letterIndex.index(moveInput[0])] == white)
-        elif moveInput[1] == "2":
-            correctlySelected = (two[letterIndex.index(moveInput[0])] == white)
-        elif moveInput[1] == "3":
-            correctlySelected = (three[letterIndex.index(moveInput[0])] == white)
-        elif moveInput[1] == "4":
-            correctlySelected = (four[letterIndex.index(moveInput[0])] == white)
-        elif moveInput[1] == "5":
-            correctlySelected = (five[letterIndex.index(moveInput[0])] == white)
-        elif moveInput[1] == "6":
-            correctlySelected = (six[letterIndex.index(moveInput[0])] == white)
-        elif moveInput[1] == "7":
-            correctlySelected = (seven[letterIndex.index(moveInput[0])] == white)
-        elif moveInput[1] == "8":
-            correctlySelected = (eight[letterIndex.index(moveInput[0])] == white)
-        else:
-            correctlySelected = False
+        correctlySelected = (board[move1][letterIndex.index(moveInput[0])] == white)
     elif currentTurn == "black":
-        if moveInput[1] == "1":
-            correctlySelected = (one[letterIndex.index(moveInput[0])] == black)
-        elif moveInput[1] == "2":
-            correctlySelected = (two[letterIndex.index(moveInput[0])] == black)
-        elif moveInput[1] == "3":
-            correctlySelected = (three[letterIndex.index(moveInput[0])] == black)
-        elif moveInput[1] == "4":
-            correctlySelected = (four[letterIndex.index(moveInput[0])] == black)
-        elif moveInput[1] == "5":
-            correctlySelected = (five[letterIndex.index(moveInput[0])] == black)
-        elif moveInput[1] == "6":
-            correctlySelected = (six[letterIndex.index(moveInput[0])] == black)
-        elif moveInput[1] == "7":
-            correctlySelected = (seven[letterIndex.index(moveInput[0])] == black)
-        elif moveInput[1] == "8":
-            correctlySelected = (eight[letterIndex.index(moveInput[0])] == black)
-        else:
-            correctlySelected = False
+        correctlySelected = (board[move1][letterIndex.index(moveInput[0])] == black)
     else:
         correctlySelected = False
     # checks if the currently selected checker is good to move
 
-    if moveInput[4] == "1":
-        moveSpotOpen = (one[letterIndex.index(moveInput[3])] == empty)
-    elif moveInput[4] == "2":
-        moveSpotOpen = (two[letterIndex.index(moveInput[3])] == empty)
-    elif moveInput[4] == "3":
-        moveSpotOpen = (three[letterIndex.index(moveInput[3])] == empty)
-    elif moveInput[4] == "4":
-        moveSpotOpen = (four[letterIndex.index(moveInput[3])] == empty)
-    elif moveInput[4] == "5":
-        moveSpotOpen = (five[letterIndex.index(moveInput[3])] == empty)
-    elif moveInput[4] == "6":
-        moveSpotOpen = (six[letterIndex.index(moveInput[3])] == empty)
-    elif moveInput[4] == "7":
-        moveSpotOpen = (seven[letterIndex.index(moveInput[3])] == empty)
-    elif moveInput[4] == "8":
-        moveSpotOpen = (eight[letterIndex.index(moveInput[3])] == empty)
-    else:
-        moveSpotOpen = False
+    moveSpotOpen = (board[move4 - 1][letterIndex.index(moveInput[3])] == empty)
     # checks if the spot the selected checker will move to is open
 
     if currentTurn == "white":
@@ -211,93 +164,22 @@ def checkLegalMove(currentTurn, moveInput):
         # checks if the x pos (letter axis) of the move is acceptable, assuming it is a jumping move
         
         if currentTurn == "white":
-            if moveInput[4] == "1":
-                validPieceForJump = False
-            elif moveInput[4] == "2":
-                if one[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "1"
-            elif moveInput[4] == "3":
-                if two[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "2"
-            elif moveInput[4] == "4":
-                if three[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "3"
-            elif moveInput[4] == "5":
-                if four[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "4"
-            elif moveInput[4] == "6":
-                if five[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "5"
-            elif moveInput[4] == "7":
-                if six[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "6"
-            elif moveInput[4] == "8":
-                if seven[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "7"
-            else:
-                validPieceForJump = False
+            if board[move1 - 2][int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
+                validPieceForJump = True
+                jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "1"
         elif currentTurn == "black":
-            if moveInput[4] == "1":
-                if two[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "2"
-            elif moveInput[4] == "2":
-                if three[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "3"
-            elif moveInput[4] == "3":
-                if four[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "4"
-            elif moveInput[4] == "4":
-                if five[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "5"
-            elif moveInput[4] == "5":
-                if six[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "6"
-            elif moveInput[4] == "6":
-                if seven[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "7"
-            elif moveInput[4] == "7":
-                if eight[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
-                    validPieceForJump = True
-                    jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "8"
-            elif moveInput[4] == "8":
-                validPieceForJump = False
-            else:
-                    validPieceForJump = False
+            if board[move1 - 1][int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
+                validPieceForJump = True
+                jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "2"
         else:
             validPieceForJump = False
         # makes sure the jumped piece is valid.
 
         if correctlySelected and moveSpotOpen and (validJumpingMoveX and validJumpingMoveY and validPieceForJump):
-            if jumpedPiece[1] == "1":
-                one[letterIndex.index(jumpedPiece[0])] = empty
-            elif jumpedPiece[1] == "2":
-                two[letterIndex.index(jumpedPiece[0])] = empty
-            elif jumpedPiece[1] == "3":
-                three[letterIndex.index(jumpedPiece[0])] = empty
-            elif jumpedPiece[1] == "4":
-                four[letterIndex.index(jumpedPiece[0])] = empty
-            elif jumpedPiece[1] == "5":
-                five[letterIndex.index(jumpedPiece[0])] = empty
-            elif jumpedPiece[1] == "6":
-                six[letterIndex.index(jumpedPiece[0])] = empty
-            elif jumpedPiece[1] == "7":
-                seven[letterIndex.index(jumpedPiece[0])] = empty
-            elif jumpedPiece[1] == "8":
-                eight[letterIndex.index(jumpedPiece[0])] = empty
+                board[move1 - 1][letterIndex.index(jumpedPiece[0])] = empty
 
+    # print("correctlySelected: " + str(correctlySelected) + " moveSpotOpen: " + str(moveSpotOpen) + " validRegularMoveX: " + str(validRegularMoveX) + " validRegularMoveY: " + str(validRegularMoveY) + " validJumpingMoveX: " + str(validJumpingMoveX) + " validJumpingMoveY: " + str(validJumpingMoveY) + " validPieceForJump: " + str(validPieceForJump))
+    # for debugging ^
     return correctlySelected and moveSpotOpen and ((validRegularMoveY and validRegularMoveX) or (validJumpingMoveX and validJumpingMoveY and validPieceForJump))
 
 # plays checkers
@@ -312,67 +194,15 @@ def checkers():
         while move == "":
             move = input(F"It is {turn}'s turn. Please enter the location of a {turn} piece and a valid place to move it. Format example: 'A3 B4'.  ").upper()
             if (len(move) == 5) and (move[0] in letterIndex) and (move[3] in letterIndex) and (move[1].isnumeric() and (int(move[1]) >= 1 and int(move[1]) <= 8)) and (move[4].isnumeric() and (int(move[4]) >= 1 and int(move[4]) <= 8)):
-                if checkLegalMove(turn, move):
-                    if move[1] == "1":
-                        one[letterIndex.index(move[0])] = empty
-                    elif move[1] == "2":
-                        two[letterIndex.index(move[0])] = empty
-                    elif move[1] == "3":
-                        three[letterIndex.index(move[0])] = empty
-                    elif move[1] == "4":
-                        four[letterIndex.index(move[0])] = empty
-                    elif move[1] == "5":
-                        five[letterIndex.index(move[0])] = empty
-                    elif move[1] == "6":
-                        six[letterIndex.index(move[0])] = empty
-                    elif move[1] == "7":
-                        seven[letterIndex.index(move[0])] = empty
-                    elif move[1] == "8":
-                        eight[letterIndex.index(move[0])] = empty
-                    else:
-                        clear()
-                        print("game is broke :(")
+                move1 = 8 - int(move[1])
+                move4 =  8 - int(move[4])
+                if checkLegalMove(turn, move, move1, move4):
+                    board[move1][letterIndex.index(move[0])] = empty
                     # clears previous position
                     if turn == "white":
-                        if move[4] == "1":
-                            one[letterIndex.index(move[3])] = white
-                        elif move[4] == "2":
-                            two[letterIndex.index(move[3])] = white
-                        elif move[4] == "3":
-                            three[letterIndex.index(move[3])] = white
-                        elif move[4] == "4":
-                            four[letterIndex.index(move[3])] = white
-                        elif move[4] == "5":
-                            five[letterIndex.index(move[3])] = white
-                        elif move[4] == "6":
-                            six[letterIndex.index(move[3])] = white
-                        elif move[4] == "7":
-                            seven[letterIndex.index(move[3])] = white
-                        elif move[4] == "8":
-                            eight[letterIndex.index(move[3])] = white
-                        else:
-                            clear()
-                            print("game is broke :(")
+                        board[move4][letterIndex.index(move[3])] = white
                     elif turn == "black":
-                        if move[4] == "1":
-                            one[letterIndex.index(move[3])] = black
-                        elif move[4] == "2":
-                            two[letterIndex.index(move[3])] = black
-                        elif move[4] == "3":
-                            three[letterIndex.index(move[3])] = black
-                        elif move[4] == "4":
-                            four[letterIndex.index(move[3])] = black
-                        elif move[4] == "5":
-                            five[letterIndex.index(move[3])] = black
-                        elif move[4] == "6":
-                            six[letterIndex.index(move[3])] = black
-                        elif move[4] == "7":
-                            seven[letterIndex.index(move[3])] = black
-                        elif move[4] == "8":
-                            eight[letterIndex.index(move[3])] = black
-                        else:
-                            clear()
-                            print("game is broke :(")
+                        board[move4][letterIndex.index(move[3])] = black
                     else:
                             clear()
                             print("game is broke :(")
@@ -385,10 +215,10 @@ def checkers():
                 move = ""
         updateCheckerboard()
         print("")
-        if (white not in one) and (white not in two) and (white not in three) and (white not in four) and (white not in five) and (white not in six) and (white not in seven) and (white not in eight):
+        if (white not in board[0]) and (white not in board[1]) and (white not in board[2]) and (white not in board[3]) and (white not in board[4]) and (white not in board[5]) and (white not in board[6]) and (white not in board[7]):
             winner = "black"
             break
-        elif (black not in one) and (black not in two) and (black not in three) and (black not in four) and (black not in five) and (black not in six) and (black not in seven) and (black not in eight):
+        elif (black not in board[0]) and (black not in board[1]) and (black not in board[2]) and (black not in board[3]) and (black not in board[4]) and (black not in board[5]) and (black not in board[6]) and (black not in board[7]):
             winner = "white"
             break
         else:
