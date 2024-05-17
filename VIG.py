@@ -25,9 +25,11 @@ letterIndex = ["A", "B", "C", "D", "E", "F", "G", "H"]
 x = "X"
 o = "O"
 space = " "
-tictactoe3 = [space, space, space]
-tictactoe2 = [space, space, space]
-tictactoe1 = [space, space, space]
+tictactoeboard = (
+    [space, space, space],
+    [space, space, space],
+    [space, space, space],
+)
 tictacLetterIndex = ["A", "B", "C"]
 
 def clear():
@@ -59,7 +61,6 @@ def checkLegalMove(currentTurn, moveInput, move1, move4):
     validJumpingMoveX = False
     validJumpingMoveY = False
     validPieceForJump = False
-    jumpedPiece = ""
 
     if currentTurn == "white":
         correctlySelected = (board[move1][letterIndex.index(moveInput[0])] == white)
@@ -69,7 +70,7 @@ def checkLegalMove(currentTurn, moveInput, move1, move4):
         correctlySelected = False
     # checks if the currently selected checker is good to move
 
-    moveSpotOpen = (board[move4 - 1][letterIndex.index(moveInput[3])] == empty)
+    moveSpotOpen = (board[move4][letterIndex.index(moveInput[3])] == empty)
     # checks if the spot the selected checker will move to is open
 
     if currentTurn == "white":
@@ -166,17 +167,16 @@ def checkLegalMove(currentTurn, moveInput, move1, move4):
         if currentTurn == "white":
             if board[move1 - 1][int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == black:
                 validPieceForJump = True
-                jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "1"
+                if validJumpingMoveX and validJumpingMoveY:
+                    board[move1 - 1][int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] = empty
         elif currentTurn == "black":
-            if board[move1][int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
+            if board[move1 + 1][int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] == white:
                 validPieceForJump = True
-                jumpedPiece = letterIndex[int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] + "2"
+                if validJumpingMoveX and validJumpingMoveY:
+                    board[move1 + 1][int((letterIndex.index(moveInput[3]) + letterIndex.index(moveInput[0])) / 2)] = empty
         else:
             validPieceForJump = False
         # makes sure the jumped piece is valid.
-
-        if correctlySelected and moveSpotOpen and (validJumpingMoveX and validJumpingMoveY and validPieceForJump):
-                board[move1 - 1][letterIndex.index(jumpedPiece[0])] = empty
 
     print("correctlySelected: " + str(correctlySelected) + " moveSpotOpen: " + str(moveSpotOpen) + " validRegularMoveX: " + str(validRegularMoveX) + " validRegularMoveY: " + str(validRegularMoveY) + " validJumpingMoveX: " + str(validJumpingMoveX) + " validJumpingMoveY: " + str(validJumpingMoveY) + " validPieceForJump: " + str(validPieceForJump))
     # for debugging ^
@@ -231,30 +231,23 @@ def checkers():
 
 def updateTicTacToeBoard():
     clear()
-    print("3  " + tictactoe3[0] + " | " + tictactoe3[1] + " | " + tictactoe3[2])
+    print("3  " + tictactoeboard[0][0] + " | " + tictactoeboard[0][1] + " | " + tictactoeboard[0][2])
     print("  ———————————")
-    print("2  " + tictactoe2[0] + " | " + tictactoe2[1] + " | " + tictactoe2[2])
+    print("2  " + tictactoeboard[1][0] + " | " + tictactoeboard[1][1] + " | " + tictactoeboard[1][2])
     print("  ———————————")
-    print("1  " + tictactoe1[0] + " | " + tictactoe1[1] + " | " + tictactoe1[2])
+    print("1  " + tictactoeboard[2][0] + " | " + tictactoeboard[2][1] + " | " + tictactoeboard[2][2])
     print("   " + tictacLetterIndex[0] + "   " + tictacLetterIndex[1] + "   " + tictacLetterIndex[2])
 
 def spotOpenTicTacToe(moveInput):
-    if moveInput[1] == "1":
-        return tictactoe1[tictacLetterIndex.index(moveInput[0])] == space
-    elif moveInput[1] == "2":
-        return tictactoe2[tictacLetterIndex.index(moveInput[0])] == space
-    elif moveInput[1] == "3":
-        return tictactoe3[tictacLetterIndex.index(moveInput[0])] == space
-    else:
-        return False
+    return tictactoeboard[3 - int(moveInput[1])][tictacLetterIndex.index(moveInput[0])] == space
     
 def checktictactoewinner(symbol):
     across = False
     down = False
     diagonal = False
-    across = (tictactoe1[0] == symbol and tictactoe1[1] == symbol and tictactoe1[2] == symbol) or (tictactoe2[0] == symbol and tictactoe2[1] == symbol and tictactoe2[2] == symbol) or (tictactoe3[0] == symbol and tictactoe3[1] == symbol and tictactoe3[2] == symbol)
-    down = (tictactoe1[0] == symbol and tictactoe2[0] == symbol and tictactoe3[0] == symbol) or (tictactoe1[1] == symbol and tictactoe2[1] == symbol and tictactoe3[1] == symbol) or (tictactoe1[2] == symbol and tictactoe2[2] == symbol and tictactoe3[2] == symbol)
-    diagonal = (tictactoe1[0] == symbol and tictactoe2[1] == symbol and tictactoe3[2] == symbol) or (tictactoe1[2] == symbol and tictactoe2[1] == symbol and tictactoe3[0] == symbol)
+    across = (tictactoeboard[0][0] == symbol and tictactoeboard[0][1] == symbol and tictactoeboard[0][2] == symbol) or (tictactoeboard[1][0] == symbol and tictactoeboard[1][1] == symbol and tictactoeboard[1][2] == symbol) or (tictactoeboard[2][0] == symbol and tictactoeboard[2][1] == symbol and tictactoeboard[2][2] == symbol)
+    down = (tictactoeboard[0][0] == symbol and tictactoeboard[1][0] == symbol and tictactoeboard[2][0] == symbol) or (tictactoeboard[0][1] == symbol and tictactoeboard[1][1] == symbol and tictactoeboard[2][1] == symbol) or (tictactoeboard[0][2] == symbol and tictactoeboard[1][2] == symbol and tictactoeboard[2][2] == symbol)
+    diagonal = (tictactoeboard[0][0] == symbol and tictactoeboard[1][1] == symbol and tictactoeboard[2][2] == symbol) or (tictactoeboard[0][2] == symbol and tictactoeboard[1][1] == symbol and tictactoeboard[2][0] == symbol)
     return across or down or diagonal
 
 def tictactoe():
@@ -268,27 +261,12 @@ def tictactoe():
         while move == "":
             move = input(F"It is {turn}'s turn. Please enter where you would like to place the piece. Format example: 'B2'.  ").upper()
             if (len(move) == 2) and (move[1].isnumeric()) and (move[0] in tictacLetterIndex) and (int(move[1]) >= 1) and (int(move[1]) <= 3):
+                move1int = int(move[1])
                 if spotOpenTicTacToe(move):
                     if turn == "X":
-                        if move[1] == "1":
-                           tictactoe1[tictacLetterIndex.index(move[0])] = x
-                        elif move[1] == "2":
-                            tictactoe2[tictacLetterIndex.index(move[0])] = x
-                        elif move[1] == "3":
-                           tictactoe3[tictacLetterIndex.index(move[0])] = x
-                        else:
-                            clear()
-                            print("game is broke :(")
+                        tictactoeboard[3 - move1int][tictacLetterIndex.index(move[0])] = x
                     elif turn == "O":
-                        if move[1] == "1":
-                           tictactoe1[tictacLetterIndex.index(move[0])] = o
-                        elif move[1] == "2":
-                            tictactoe2[tictacLetterIndex.index(move[0])] = o
-                        elif move[1] == "3":
-                           tictactoe3[tictacLetterIndex.index(move[0])] = o
-                        else:
-                            clear()
-                            print("game is broke :(")
+                        tictactoeboard[3 - move1int][tictacLetterIndex.index(move[0])] = o
                     else:
                         clear()
                         print("game is broke :(")
@@ -306,7 +284,7 @@ def tictactoe():
         elif checktictactoewinner(x):
             winner = "X"
             break
-        elif (space not in tictactoe1) and (space not in tictactoe2) and (space not in tictactoe3):
+        elif (space not in tictactoeboard[0]) and (space not in tictactoeboard[1]) and (space not in tictactoeboard[2]):
             winner = "tie"
             break
         else:
