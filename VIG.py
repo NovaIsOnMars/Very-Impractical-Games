@@ -178,7 +178,7 @@ def checkLegalMove(currentTurn, moveInput, move1, move4):
             validPieceForJump = False
         # makes sure the jumped piece is valid.
 
-    print("correctlySelected: " + str(correctlySelected) + " moveSpotOpen: " + str(moveSpotOpen) + " validRegularMoveX: " + str(validRegularMoveX) + " validRegularMoveY: " + str(validRegularMoveY) + " validJumpingMoveX: " + str(validJumpingMoveX) + " validJumpingMoveY: " + str(validJumpingMoveY) + " validPieceForJump: " + str(validPieceForJump))
+    # print("correctlySelected: " + str(correctlySelected) + " moveSpotOpen: " + str(moveSpotOpen) + " validRegularMoveX: " + str(validRegularMoveX) + " validRegularMoveY: " + str(validRegularMoveY) + " validJumpingMoveX: " + str(validJumpingMoveX) + " validJumpingMoveY: " + str(validJumpingMoveY) + " validPieceForJump: " + str(validPieceForJump))
     # for debugging ^
     return correctlySelected and moveSpotOpen and ((validRegularMoveY and validRegularMoveX) or (validJumpingMoveX and validJumpingMoveY and validPieceForJump))
 
